@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,17 +47,8 @@
             z-index: -1;
         }
 
-        /* --- Login Overlay --- */
-        #antechamber {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(10, 15, 20, 0.8); display: flex; justify-content: center; align-items: center;
-            z-index: 1000; backdrop-filter: blur(10px); transition: opacity 0.5s ease, visibility 0.5s;
-        }
-        .login-box {
-            background: rgba(13, 17, 23, 0.6); border: 1px solid var(--border-color);
-            padding: 40px; text-align: center; width: 450px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(15px); border-radius: var(--border-radius); animation: fadeIn 1s ease;
-        }
+        #antechamber { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 15, 20, 0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(10px); transition: opacity 0.5s ease, visibility 0.5s; }
+        .login-box { background: rgba(13, 17, 23, 0.6); border: 1px solid var(--border-color); padding: 40px; text-align: center; width: 450px; max-width: 90vw; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); backdrop-filter: blur(15px); border-radius: var(--border-radius); animation: fadeIn 1s ease; }
         .login-box h1 { font-family: var(--font-family-display); color: var(--accent-color); font-size: 5rem; margin-bottom: 0px; letter-spacing: 5px; line-height: 1; text-shadow: 0 0 20px var(--glow-color); }
         .login-box p { color: var(--text-muted-color); margin-bottom: 30px; letter-spacing: 1px; text-transform: uppercase; }
         .login-box .form-group { margin-bottom: 20px; }
@@ -71,13 +61,7 @@
         .login-toggle a { color: var(--text-muted-color); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-speed); }
         .login-toggle a:hover { color: var(--accent-color); }
 
-        /* --- Sidebar --- */
-        #sidebar {
-            width: 70px; background-color: var(--primary-color); border-right: 1px solid var(--border-color);
-            padding: 20px 0; height: 100vh; display: flex; flex-direction: column; align-items: center;
-            transition: width var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(15px); z-index: 10; overflow-x: hidden;
-        }
+        #sidebar { width: 70px; background-color: var(--primary-color); border-right: 1px solid var(--border-color); padding: 20px 0; height: 100vh; display: flex; flex-direction: column; align-items: center; transition: width var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(15px); z-index: 10; overflow-x: hidden; }
         #sidebar:hover { width: 240px; }
         #sidebar .logo { font-family: var(--font-family-display); font-size: 3rem; color: var(--accent-color); margin-bottom: 40px; cursor: default; filter: drop-shadow(0 0 10px var(--glow-color)); }
         #sidebar nav ul { list-style: none; width: 100%; padding: 0; }
@@ -88,7 +72,6 @@
         #sidebar nav li.active .icon, #sidebar nav li:hover .icon { filter: drop-shadow(0 0 8px var(--glow-color)); color: var(--accent-color); }
         #sidebar .nav-text { margin-left: 10px; font-weight: 500; opacity: 0; transition: opacity 0.2s ease; }
         #sidebar:hover .nav-text { opacity: 1; transition-delay: 0.1s; }
-        
         .user-profile { margin-top: auto; padding: 20px 0; width: 100%; text-align: center; white-space: nowrap; overflow: hidden; border-top: 1px solid var(--border-color); }
         .user-details { opacity: 0; transition: opacity 0.3s ease 0.1s, transform 0.3s ease; height: 0; transform: translateY(10px); }
         #sidebar:hover .user-details { opacity: 1; height: auto; transform: translateY(0); }
@@ -113,18 +96,45 @@
 
         .card { background-color: var(--primary-color); border: 1px solid var(--border-color); padding: 25px; border-radius: var(--border-radius); backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .objective-container { grid-column: 1 / -1; }
+        .progress-bar-fill { transition: width 1s cubic-bezier(0.25, 1, 0.5, 1); height: 40px; background: linear-gradient(90deg, var(--accent-color), var(--glow-color)); border-radius: 5px; box-shadow: 0 0 15px var(--glow-color); }
+        
+        /* --- ARMOURY UPGRADE --- */
+        .armoury-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .armoury-item { border-radius: var(--border-radius); overflow: hidden; transition: all var(--transition-speed) ease; background: var(--primary-color); }
+        .armoury-item:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 10px var(--glow-color); }
+        .armoury-item img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; filter: saturate(0.2) brightness(0.7); transition: all var(--transition-speed) ease; }
+        .armoury-item:hover img { filter: saturate(1) brightness(1); transform: scale(1.05); }
+        .asset-info { padding: 20px; }
+        .asset-info h4 { font-size: 1.2rem; margin-bottom: 8px; }
+        .asset-info p { font-size: 0.9rem; color: var(--text-muted-color); }
+        .asset-download-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 15px; background-color: var(--secondary-color); text-align: center; color: var(--accent-color); text-decoration: none; font-weight: bold; letter-spacing: 1px; transition: all var(--transition-speed) ease; border-top: 1px solid var(--border-color); }
+        .asset-download-btn:hover { background-color: var(--accent-color); color: var(--background-color); }
+        .asset-download-btn svg { width: 18px; height: 18px; }
 
-        #invite-code-widget { position: absolute; top: 45px; right: 40px; background-color: var(--secondary-color); padding: 8px 12px; border-radius: var(--border-radius); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 12px; z-index: 5; }
-        .objective-container { grid-column: 1 / -1; padding: 40px; text-align: center; }
-        .objective-header { font-family: var(--font-family-display); font-size: 3rem; color: var(--accent-color); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px; animation: glow-pulse 3s infinite ease-in-out; }
-        @keyframes glow-pulse { 0%, 100% { text-shadow: 0 0 15px var(--glow-color); } 50% { text-shadow: 0 0 25px var(--glow-color); } }
-        .progress-bar-container { width: 100%; background-color: var(--secondary-color); border-radius: var(--border-radius); border: 1px solid var(--border-color); padding: 5px; margin-bottom: 15px; }
-        .progress-bar-fill { height: 40px; background: linear-gradient(90deg, var(--accent-color), var(--glow-color)); border-radius: 5px; box-shadow: 0 0 15px var(--glow-color); transition: width 1s cubic-bezier(0.25, 1, 0.5, 1); }
-        .progress-text { font-family: var(--font-family-mono); font-size: 1.2rem; letter-spacing: 1px; }
-        .progress-text .highlight { color: var(--accent-color); font-weight: bold; }
+        /* --- PROVING GROUND UPGRADE --- */
+        .proving-ground-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
+        .submission-card { grid-column: span 12; }
+        .submission-feed { grid-column: span 12; }
+        @media (min-width: 992px) { .submission-card { grid-column: span 5; } .submission-feed { grid-column: span 7; } }
+        .form-group label { text-align: left; }
+        .submission-feed .card-header { border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px;}
+        .submission-item { background: rgba(0,0,0,0.2); padding: 20px; border-radius: var(--border-radius); border: 1px solid var(--border-color); margin-bottom: 20px; }
+        .submission-item:last-child { margin-bottom: 0; }
+        
+        /* --- PROTOCOL UPGRADE --- */
+        .accordion-item { background: transparent; border: 1px solid var(--border-color); margin-bottom: 15px; border-radius: var(--border-radius); overflow: hidden; transition: background-color var(--transition-speed) ease; }
+        .accordion-item:hover { background-color: var(--primary-color); }
+        .accordion-header { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 1.3rem; font-weight: bold; }
+        .accordion-header .icon { transition: transform var(--transition-speed) ease; font-size: 1.5rem; color: var(--accent-color); }
+        .accordion-item.open .accordion-header { color: var(--accent-color); }
+        .accordion-item.open .accordion-header .icon { transform: rotate(45deg); }
+        .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.4s ease-out; }
+        .accordion-content p { line-height: 1.7; color: var(--text-muted-color); padding-bottom: 20px; }
 
-        .lounge-container { display: flex; height: calc(100vh - 180px); background: var(--primary-color); border-radius: var(--border-radius); border: 1px solid var(--border-color); overflow: hidden; }
-        .channel-list { width: 250px; border-right: 1px solid var(--border-color); padding: 15px; background-color: rgba(0,0,0,0.1); }
+        /* --- THE LOUNGE & CHAT --- */
+        .lounge-container { display: flex; height: calc(100vh - 180px); background: var(--primary-color); border-radius: var(--border-radius); border: 1px solid var(--border-color); overflow: hidden; position: relative;}
+        .channel-list { width: 250px; border-right: 1px solid var(--border-color); padding: 15px; background-color: rgba(0,0,0,0.1); display: flex; flex-direction: column; }
         .channel-list h3 { font-family: var(--font-family-display); font-size: 1.8rem; margin-bottom: 15px; padding: 10px; }
         .channel-list ul { list-style: none; }
         .channel-list li { display: flex; align-items: center; padding: 12px 15px; border-radius: 5px; margin-bottom: 5px; cursor: pointer; transition: background-color var(--transition-speed); }
@@ -132,21 +142,15 @@
         .channel-list li.active, .channel-list li:hover { background-color: var(--secondary-color); color: var(--accent-color); }
         .channel-list li.active::before, .channel-list li:hover::before { color: var(--accent-color); }
         .chat-area { flex: 1; display: flex; flex-direction: column; }
-        .chat-header { padding: 20px; border-bottom: 1px solid var(--border-color); font-weight: bold; background-color: rgba(0,0,0,0.1);}
+        .chat-header { padding: 15px 20px; border-bottom: 1px solid var(--border-color); font-weight: bold; background-color: rgba(0,0,0,0.1); display: flex; align-items: center; gap: 10px; }
+        #channel-toggle-btn { display: none; background: var(--secondary-color); border: 1px solid var(--border-color); color: var(--accent-color); font-size: 1.5rem; width: 40px; height: 40px; border-radius: 5px; cursor: pointer; }
         #current-channel-name { color: var(--accent-color); font-family: var(--font-family-mono); }
         .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; }
         #typing-indicator { height: 25px; padding: 0 20px; color: var(--text-muted-color); font-style: italic; transition: opacity 0.3s ease; }
         .message { margin-bottom: 20px; display: flex; animation: fadeInMessage 0.3s ease; }
         @keyframes fadeInMessage { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .message .avatar { width: 40px; height: 40px; background: var(--secondary-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; margin-right: 15px; flex-shrink: 0; border: 2px solid var(--border-color); }
-        .message .message-body { display: flex; flex-direction: column; }
         .message .author { font-weight: bold; margin-right: 10px; }
-        .author.rank-architect { color: var(--accent-color); }
-        .author.rank-enforcer { color: var(--danger-color); }
-        .author.rank-artificer, .author.rank-scribe { color: #6F86FF; }
-        .author.rank-signal-corps { color: #FFB86C; }
-        .author.rank-sentinel { color: #A4B2FF; }
-        .author.rank-soldier { color: var(--text-color); }
         .message .timestamp { font-size: 0.8em; color: var(--text-muted-color); }
         .message .content { margin-top: 5px; line-height: 1.5; }
         .chat-input { display: flex; border-top: 1px solid var(--border-color); background-color: var(--background-color); }
@@ -155,12 +159,33 @@
         .chat-input button { background: var(--accent-color); border: none; color: var(--background-color); padding: 0 30px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: all var(--transition-speed) ease; }
         .chat-input button:hover { background-color: #fff; letter-spacing: 1px; }
 
+        /* --- MEMBER ROSTER & STATUS --- */
         .members-table table { width: 100%; border-collapse: collapse; }
         .members-table th, .members-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
         .members-table th { font-family: var(--font-family-display); font-size: 1.5rem; color: var(--text-muted-color); }
         .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
         .status-dot.online { background-color: var(--success-color); box-shadow: 0 0 5px var(--success-color); }
         .status-dot.offline { background-color: var(--danger-color); }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 800px) {
+            body { flex-direction: column; overflow: auto; }
+            #sidebar { width: 100%; height: 70px; position: fixed; bottom: 0; left: 0; z-index: 100; flex-direction: row; align-items: center; padding: 0; border-right: none; border-top: 1px solid var(--border-color); }
+            #sidebar .logo, #sidebar .user-profile { display: none; }
+            #sidebar nav, #sidebar nav ul { display: flex; flex-direction: row; justify-content: space-around; align-items: center; width: 100%; height: 100%; }
+            #sidebar nav li { flex: 1; border-left: none; border-bottom: 4px solid transparent; justify-content: center; padding: 0; margin: 0; height: 100%; }
+            #sidebar nav li.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+            #sidebar:hover { width: 100%; }
+            #sidebar .nav-text { display: none; }
+            
+            #main-content { padding: 20px 20px 90px 20px; height: auto; }
+            h2 { font-size: 2.5rem; }
+
+            .lounge-container { height: calc(100vh - 150px); }
+            .channel-list { position: absolute; left: 0; top: 0; width: 80%; max-width: 300px; height: 100%; z-index: 200; transform: translateX(-100%); transition: transform 0.3s ease; background: var(--background-color); }
+            .channel-list.open { transform: translateX(0); }
+            #channel-toggle-btn { display: block; }
+        }
     </style>
 </head>
 <body>
@@ -199,73 +224,66 @@
 </aside>
 
 <main id="main-content">
-    <div id="invite-code-widget" style="display: none;"><!-- Hidden for now --></div>
-
     <section id="mission-control" class="view active">
         <h2>Mission <span class="highlight">Control</span></h2>
         <div class="grid-container">
-            <div class="card objective-container">
-                <div class="objective-header">RECRUIT 100 OPERATIVES</div>
-                <div class="progress-bar-container">
-                    <div id="recruitment-progress-bar" class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
-                <div class="progress-text" id="recruitment-progress-text">
-                    <span class="highlight">0</span> / 100 OPERATIVES RECRUITED
-                </div>
-            </div>
-            <div class="card target-dossier"><div class="card-header">Current Mission</div><div class="card-content">The Syndicate is being forged. The current mission is to build a core of 100 disciplined Soldiers. Once this objective is met, we will enter a testing phase to assign specialists to their divisions. Only then will launch operations commence.</div></div>
-            <div class="card"><div class="card-header">Key Directives</div><div class="card-content"><ul style="list-style: none; padding: 0; color: var(--text-color);"><li style="margin-bottom:10px;"><strong>1. Engage:</strong> Be active in The Lounge. Forge alliances.</li><li style="margin-bottom:10px;"><strong>2. Recruit:</strong> Use the invite code to onboard trusted operatives.</li><li style="margin-bottom:10px;"><strong>3. Prove:</strong> Showcase skills in The Proving Ground to earn rank.</li><li style="margin-bottom:10px;"><strong>4. Study:</strong> Master The Protocol. It is our bond.</li></ul></div></div>
-            <div class="card intel-feed"><div class="card-header">Live Intel Feed</div><ul><li><span style="color:var(--accent-color)">[SYSTEM]</span> Recruitment is the priority. Share the invite code with trusted individuals only.</li><li><span style="color:var(--accent-color)">[SYSTEM]</span> The Proving Ground is active. Demonstrate your value. The Council is observing.</li><li><span style="color:var(--accent-color)">[SYSTEM]</span> Community strength determines launch success. Focus on building a disciplined core.</li></ul></div>
+            <div class="card objective-container"><div class="objective-header">RECRUIT 100 OPERATIVES</div><div class="progress-bar-container"><div id="recruitment-progress-bar" class="progress-bar-fill"></div></div><div class="progress-text" id="recruitment-progress-text"><span class="highlight">0</span> / 100 OPERATIVES RECRUITED</div></div>
+            <div class="card"><div class="card-header">Current Mission</div><div class="card-content">The Syndicate is being forged. The current mission is to build a core of 100 disciplined Soldiers. Once this objective is met, we will enter a testing phase to assign specialists to their divisions.</div></div>
+            <div class="card"><div class="card-header">Key Directives</div><div class="card-content"><ul style="list-style: none; padding: 0; color: var(--text-color);"><li style="margin-bottom:10px;"><strong>1. Engage:</strong> Be active in The Lounge. Forge alliances.</li><li style="margin-bottom:10px;"><strong>2. Recruit:</strong> Use the invite code to onboard trusted operatives.</li><li style="margin-bottom:10px;"><strong>3. Prove:</strong> Showcase skills in The Proving Ground to earn rank.</li></ul></div></div>
         </div>
     </section>
 
     <section id="lounge" class="view">
         <h2>The <span class="highlight">Lounge</span></h2>
         <div class="lounge-container">
-            <div class="channel-list"><h3>Channels</h3><ul id="channels"><li class="active" data-channel="general">general</li><li data-channel="operations">operations</li><li data-channel="intel-drops">intel-drops</li><li data-channel="proof-of-work">proof-of-work</li></ul></div>
-            <div class="chat-area"><div class="chat-header">Messages in <span id="current-channel-name">#general</span></div><div class="chat-messages"></div><div id="typing-indicator"></div><form class="chat-input" id="chat-form"><input type="text" id="chatMessageInput" placeholder="Transmit in #general..." autocomplete="off"><button id="sendMessageBtn">SEND</button></form></div>
+            <div class="channel-list" id="channel-list-panel"><h3>Channels</h3><ul id="channels"><li class="active" data-channel="general">general</li><li data-channel="operations">operations</li><li data-channel="intel-drops">intel-drops</li><li data-channel="proof-of-work">proof-of-work</li></ul></div>
+            <div class="chat-area">
+                <div class="chat-header"><button id="channel-toggle-btn">#</button><span id="current-channel-name">general</span></div>
+                <div class="chat-messages"></div>
+                <div id="typing-indicator"></div>
+                <form class="chat-input" id="chat-form"><input type="text" id="chatMessageInput" placeholder="Transmit in #general..." autocomplete="off"><button id="sendMessageBtn">SEND</button></form>
+            </div>
         </div>
     </section>
     
     <section id="armoury" class="view">
         <h2>The <span class="highlight">Armoury</span></h2>
-        <div class="card" style="margin-bottom: 30px;"><div class="card-header">Mission Directives</div><div class="card-content">This is the arsenal for the Social Storm. When an operation is active, this section will be stocked with propaganda assets (memes, GIFs, graphics). Your duty is to acquire these assets and deploy them across all social media platforms on signal, overwhelming the target with our collective narrative. For now, these assets are for training purposes.</div></div>
+        <div class="card" style="margin-bottom: 30px;"><div class="card-header">Mission Directives</div><div class="card-content">This is the arsenal for the Social Storm. When an operation is active, this section will be stocked with propaganda assets. Your duty is to acquire these assets and deploy them across all social media platforms on signal, overwhelming the target with our collective narrative.</div></div>
         <div class="armoury-grid">
-            <div class="armoury-item card"><img src="https://i.imgur.com/8Q1mH5b.png" alt="Meme 1"><div class="asset-info"><h4>WOLF_MEME_01.PNG</h4><p>Type: Static Meme</p></div><a href="#" class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
-            <div class="armoury-item card"><img src="https://i.imgur.com/Y3g0g9J.png" alt="Meme 2"><div class="asset-info"><h4>WOLF_STRIKE.PNG</h4><p>Type: Static Meme</p></div><a href="#" class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
-            <div class="armoury-item card"><img src="https://i.imgur.com/k2gY1zR.png" alt="Meme 3"><div class="asset-info"><h4>LONE_WOLF.PNG</h4><p>Type: Quote Graphic</p></div><a href="#" class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
-            <div class="armoury-item card"><img src="https://i.imgur.com/wV2V4gN.png" alt="Meme 4"><div class="asset-info"><h4>WOLF_PACK.GIF</h4><p>Type: Animated GIF</p></div><a href="#" class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
+            <div class="armoury-item"><img src="https://i.imgur.com/8Q1mH5b.png" alt="Meme 1"><div class="asset-info"><h4>WOLF_MEME_01.PNG</h4><p>Type: Static Meme</p></div><a href="https://i.imgur.com/8Q1mH5b.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
+            <div class="armoury-item"><img src="https://i.imgur.com/Y3g0g9J.png" alt="Meme 2"><div class="asset-info"><h4>WOLF_STRIKE.PNG</h4><p>Type: Static Meme</p></div><a href="https://i.imgur.com/Y3g0g9J.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
+            <div class="armoury-item"><img src="https://i.imgur.com/k2gY1zR.png" alt="Meme 3"><div class="asset-info"><h4>LONE_WOLF.PNG</h4><p>Type: Quote Graphic</p></div><a href="https://i.imgur.com/k2gY1zR.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
+            <div class="armoury-item"><img src="https://i.imgur.com/wV2V4gN.png" alt="Meme 4"><div class="asset-info"><h4>WOLF_PACK.GIF</h4><p>Type: Animated GIF</p></div><a href="https://i.imgur.com/wV2V4gN.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
         </div>
     </section>
     
     <section id="proving-ground" class="view">
         <h2>The <span class="highlight">Proving Ground</span></h2>
-        <div class="card submission-card"><div class="card-header">Submit Proof-of-Work</div><p style="color: var(--text-muted-color); margin-bottom: 25px;">Distinguish yourself. Submit your contributions here to be reviewed by the Enforcer Council for promotion to a Specialist Division. Post your work in the #proof-of-work channel first.</p><form id="pow-form"><div class="form-group"><label for="contribution-link">Link to Contribution</label><input type="text" id="contribution-link" placeholder="Link to your meme, analysis thread, etc." required></div><div class="form-group"><label for="contribution-desc">Brief Description</label><textarea id="contribution-desc" placeholder="Explain your work and which Division you are aiming for (e.g., Propaganda, Sentinel)." required></textarea></div><button type="submit" class="btn-submit">SUBMIT FOR REVIEW</button><div id="pow-submission-status"></div></form></div>
-        <div class="card submission-feed"><div class="card-header">Recent Submissions</div><div class="submission-item"><p class="submission-meta">Submitted by <strong>Ghost0x</strong> for <strong>Propaganda Bureau (Artificer)</strong></p><p class="submission-content">"Created a new series of high-impact GIFs for the $WOLF social storm."</p></div><div class="submission-item"><p class="submission-meta">Submitted by <strong>Raptor</strong> for <strong>Sentinel Division</strong></p><p class="submission-content">"Analyzed the top 10 wallets of the last operation; identified 3 potential swing traders to watch."</p></div></div>
+        <div class="proving-ground-grid">
+            <div class="submission-card card"><div class="card-header">Submit Proof-of-Work</div><p style="color: var(--text-muted-color); margin-bottom: 25px;">Distinguish yourself. Submit contributions to be reviewed by the Council for promotion. Post your work in the #proof-of-work channel first.</p><form id="pow-form"><div class="form-group"><label for="contribution-link">Link to Contribution</label><input type="text" id="contribution-link" placeholder="e.g., imgur.com/gallery/..." required></div><div class="form-group"><label for="contribution-desc">Brief Description</label><textarea id="contribution-desc" placeholder="Explain your work and which Division you are aiming for." required></textarea></div><button type="submit" class="btn-submit">SUBMIT FOR REVIEW</button><div id="pow-submission-status"></div></form></div>
+            <div class="submission-feed card"><div class="card-header">Recent Submissions</div><div id="submission-feed-list"><div class="submission-item"><p class="submission-meta">Submitted by <strong>Ghost0x</strong> for <strong>Propaganda Bureau (Artificer)</strong></p><p class="submission-content">"Created a new series of high-impact GIFs for the $WOLF social storm."</p></div><div class="submission-item"><p class="submission-meta">Submitted by <strong>Raptor</strong> for <strong>Sentinel Division</strong></p><p class="submission-content">"Analyzed the top 10 wallets of the last operation; identified 3 potential swing traders to watch."</p></div></div></div>
+        </div>
     </section>
     
     <section id="protocol" class="view">
         <h2>The <span class="highlight">Protocol</span></h2>
-        <div class="accordion"><div class="accordion-item"><div class="accordion-header">Rule I: The Duty of Secrecy <span class="icon">+</span></div><div class="accordion-content"><p>What is discussed here, stays here. Any leak of operational details, member identities, or internal strategies will result in immediate and permanent expulsion.</p></div></div><div class="accordion-item"><div class="accordion-header">Rule II: The Duty of Participation <span class="icon">+</span></div><div class="accordion-content"><p>This is not a spectator sport. Every member is required to participate in the Social Storm. Participation rates are monitored.</p></div></div><div class="accordion-item"><div class="accordion-header">Rule III: The Duty of Discipline <span class="icon">+</span></div><div class="accordion-content"><p>Follow the command structure. Exit signals are not suggestions; they are orders. Acting on individual greed jeopardizes the entire operation.</p></div></div><div class="accordion-item"><div class="accordion-header">Rule IV: The Creator's Vow <span class="icon">+</span></div><div class="accordion-content"><p>Any coin launched from this platform is bound by The Creator's Vow: a mandatory, publicly verifiable burn of all Liquidity Pool (LP) tokens post-migration. This is a non-negotiable vow of trust. The creator's only path to profit is to participate as an equal. This is the way.</p></div></div></div>
-        <div class="final-warning">Compliance is not optional. It is the foundation of our collective success.</div>
+        <div class="accordion">
+            <div class="accordion-item"><div class="accordion-header">Rule I: The Duty of Secrecy <span class="icon">+</span></div><div class="accordion-content"><p>What is discussed here, stays here. Any leak of operational details, member identities, or internal strategies will result in immediate and permanent expulsion.</p></div></div>
+            <div class="accordion-item"><div class="accordion-header">Rule II: The Duty of Participation <span class="icon">+</span></div><div class="accordion-content"><p>This is not a spectator sport. Every member is required to participate in Social Storms. Participation is monitored.</p></div></div>
+            <div class="accordion-item"><div class="accordion-header">Rule III: The Duty of Discipline <span class="icon">+</span></div><div class="accordion-content"><p>Follow the command structure. Exit signals are not suggestions; they are orders. Acting on individual greed jeopardizes the entire operation.</p></div></div>
+            <div class="accordion-item"><div class="accordion-header">Rule IV: The Creator's Vow <span class="icon">+</span></div><div class="accordion-content"><p>Any asset launched from this platform is bound by The Creator's Vow: a mandatory, publicly verifiable burn of all Liquidity Pool (LP) tokens. This is a non-negotiable vow of trust.</p></div></div>
+        </div>
+        <div class="final-warning" style="margin-top: 20px; padding: 20px; border: 1px solid var(--danger-color); color: var(--danger-color); text-align: center; border-radius: var(--border-radius); background-color: rgba(248, 81, 73, 0.1);">Compliance is not optional.</div>
     </section>
 
     <section id="members" class="view">
         <h2>Member <span class="highlight">Roster</span></h2>
-        <div class="card members-table">
-            <table>
-                <thead><tr><th>Alias</th><th>Rank</th><th>Status</th></tr></thead>
-                <tbody id="member-roster-body">
-                    <!-- This will be populated dynamically -->
-                </tbody>
-            </table>
-        </div>
+        <div class="card members-table"><table width="100%"><thead><tr><th>Alias</th><th>Rank</th><th>Status</th></tr></thead><tbody id="member-roster-body"></tbody></table></div>
     </section>
 
     <section id="about" class="view">
         <h2>About <span class="highlight">The Syndicate</span></h2>
-        <div class="card" style="margin-bottom: 30px;"><div class="card-header">Our Mission: Launch & Ascend</div><div class="card-content"><p>We are a decentralized collective of strategists and traders. We reject the chaotic, zero-sum game of typical memecoins. Our objective is not a simple "pump and dump," but a disciplined "Launch & Ascend."</p><p style="margin-top:15px;">By focusing our collective power on one vetted operation per day, we aim to achieve Raydium migration, establishing a stable foundation for sustained growth and attracting long-term volume.</p></div></div>
-        <div class="card" style="margin-bottom: 30px;"><div class="card-header">How An Operation Works</div><div class="card-content"><ol style="padding-left: 20px; color: var(--text-color);"><li style="margin-bottom: 10px;"><strong>The Countdown:</strong> Mission Control reveals the day's target. Members study the dossier and prepare assets from The Armoury.</li><li style="margin-bottom: 10px;"><strong>The First Wave:</strong> At T-Zero, the contract address is released. Soldiers execute the initial buy on Pump.fun.</li><li style="margin-bottom: 10px;"><strong>The Social Storm:</strong> The Signal Corps and all Soldiers execute a coordinated social media campaign to generate massive hype.</li><li style="margin-bottom: 10px;"><strong>The Migration:</strong> The collective push aims to fill the bonding curve and migrate the coin to Raydium.</li><li style="margin-bottom: 10px;"><strong>Structured Exit:</strong> Enforcers will give phased profit-taking signals in the #operations channel to ensure stability.</li></ol></div></div>
+        <div class="card" style="margin-bottom: 30px;"><div class="card-header">Our Mission: Launch & Ascend</div><div class="card-content"><p>We are a decentralized collective of strategists and traders. We reject the chaotic, zero-sum game of typical memecoins. Our objective is not a simple "pump and dump," but a disciplined "Launch & Ascend."</p></div></div>
         <div class="card"><div class="card-header">Ranks & Divisions</div><div class="card-content"><p>This is a meritocracy. All new members are Soldiers. Rank is earned through contribution submitted in The Proving Ground.</p><ul style="list-style: none; padding-top: 15px; color: var(--text-color);"><li style="margin-bottom:10px;"><strong>Soldier:</strong> The backbone of the Syndicate. The buyers and amplifiers.</li><li style="margin-bottom:10px;"><strong>Propaganda Bureau (Artificers & Scribes):</strong> The creative core. They build the memes and narratives.</li><li style="margin-bottom:10px;"><strong>Signal Corps:</strong> The frontline communicators who execute the Social Storm.</li><li style="margin-bottom:10px;"><strong>Sentinel Division:</strong> The guardians. They verify LP burns and watch for threats on-chain.</li><li style="margin-bottom:10px;"><strong>Enforcer:</strong> The trusted leadership who vet projects and guide strategy.</li></ul></div></div>
     </section>
 
@@ -274,12 +292,10 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // --- STATE ---
     let user = null;
     let accessMode = 'login';
     let socket;
     
-    // --- DOM ELEMENTS ---
     const antechamber = document.getElementById('antechamber');
     const enterBtn = document.getElementById('enterSyndicateBtn');
     const usernameInput = document.getElementById('usernameInput');
@@ -300,13 +316,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatForm = document.getElementById('chat-form');
     const chatMessages = document.querySelector('.chat-messages');
     const messageInput = document.getElementById('chatMessageInput');
-    const channelList = document.getElementById('channels');
+    const channelListPanel = document.getElementById('channel-list-panel');
+    const channelToggleBtn = document.getElementById('channel-toggle-btn');
+    const channels = document.getElementById('channels');
     const currentChannelName = document.getElementById('current-channel-name');
     const typingIndicator = document.getElementById('typing-indicator');
     let currentChannel = 'general';
     let typingTimeout;
 
-    // --- FUNCTIONS ---
     const setAccessMode = (mode) => {
         accessMode = mode;
         loginError.textContent = '';
@@ -362,30 +379,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateDashboardAndRoster = (data) => {
         const { totalUsers, userRoster, onlineUsernames } = data;
         
-        // Use querySelector for Mission Control elements as IDs might not be unique
-        const missionProgressBar = document.querySelector('#mission-control .progress-bar-fill');
-        const missionProgressText = document.querySelector('#mission-control .progress-text');
+        const recruitmentProgressBar = document.getElementById('recruitment-progress-bar');
+        const recruitmentProgressText = document.getElementById('recruitment-progress-text');
         
         const progressPercentage = Math.min((totalUsers / 100) * 100, 100);
-        if (missionProgressBar) missionProgressBar.style.width = `${progressPercentage}%`;
-        if (missionProgressText) missionProgressText.innerHTML = `<span class="highlight">${totalUsers}</span> / 100 OPERATIVES RECRUITED`;
+        if (recruitmentProgressBar) recruitmentProgressBar.style.width = `${progressPercentage}%`;
+        if (recruitmentProgressText) recruitmentProgressText.innerHTML = `<span class="highlight">${totalUsers}</span> / 100 OPERATIVES RECRUITED`;
 
-        const rosterBody = document.getElementById('member-roster-body');
-        if (rosterBody) {
-            rosterBody.innerHTML = '';
+        if (memberRosterBody) {
+            memberRosterBody.innerHTML = '';
             userRoster.forEach(member => {
                 const isOnline = onlineUsernames.includes(member.alias);
                 const statusClass = isOnline ? 'online' : 'offline';
                 const statusText = isOnline ? 'Online' : 'Offline';
                 const rankClass = member.rank.replace(' ', '-');
-
                 const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${member.alias}</td>
-                    <td><span class="rank ${rankClass}">${member.rank.toUpperCase()}</span></td>
-                    <td><span class="status-dot ${statusClass}"></span>${statusText}</td>
-                `;
-                rosterBody.appendChild(row);
+                row.innerHTML = `<td>${member.alias}</td><td><span class="rank ${rankClass}">${member.rank.toUpperCase()}</span></td><td><span class="status-dot ${statusClass}"></span>${statusText}</td>`;
+                memberRosterBody.appendChild(row);
             });
         }
     };
@@ -406,20 +416,17 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.on('typing broadcast', (typingUsers) => {
             if (!user) return;
             const usersTypingInChannel = Object.values(typingUsers).filter(u => u && u.channel === currentChannel && u.username !== user.alias);
-            if (usersTypingInChannel.length === 0) {
-                typingIndicator.textContent = '';
-            } else if (usersTypingInChannel.length === 1) {
-                typingIndicator.textContent = `${usersTypingInChannel[0].username} is typing...`;
-            } else {
-                typingIndicator.textContent = 'Multiple users are typing...';
-            }
+            if (usersTypingInChannel.length === 0) typingIndicator.textContent = '';
+            else if (usersTypingInChannel.length === 1) typingIndicator.textContent = `${usersTypingInChannel[0].username} is typing...`;
+            else typingIndicator.textContent = 'Multiple users are typing...';
         });
     };
 
     const appendMessage = (msg) => {
+        const isScrolledToBottom = chatMessages.scrollHeight - chatMessages.clientHeight <= chatMessages.scrollTop + 1;
         const messageHTML = `<div class="message"><div class="avatar">${msg.author.substring(0, 2).toUpperCase()}</div><div class="message-body"><div><span class="author rank-${msg.rank}">${msg.author}</span><span class="timestamp">${msg.timestamp}</span></div><div class="content">${msg.content}</div></div></div>`;
         chatMessages.insertAdjacentHTML('beforeend', messageHTML);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        if (isScrolledToBottom) chatMessages.scrollTop = chatMessages.scrollHeight;
     };
 
     const sendMessage = (e) => {
@@ -435,17 +442,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const switchChannel = (e) => {
-        if (e.target.tagName !== 'LI' || !socket) return;
+        if (!e.target.closest('li') || !socket) return;
+        const channelItem = e.target.closest('li');
         clearTimeout(typingTimeout);
         socket.emit('user stopped typing');
-        currentChannel = e.target.dataset.channel;
-        channelList.querySelector('.active').classList.remove('active');
-        e.target.classList.add('active');
+        currentChannel = channelItem.dataset.channel;
+        if (document.querySelector('#channels .active')) document.querySelector('#channels .active').classList.remove('active');
+        channelItem.classList.add('active');
         currentChannelName.textContent = `#${currentChannel}`;
         messageInput.placeholder = `Transmit in #${currentChannel}...`;
         chatMessages.innerHTML = '';
         typingIndicator.innerHTML = '';
         socket.emit('switch channel', currentChannel);
+        if (channelListPanel.classList.contains('open')) channelListPanel.classList.remove('open');
     };
 
     const handleNavigation = (e) => {
@@ -456,14 +465,25 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(targetView).classList.add('active');
     };
     
-    // --- EVENT LISTENERS & INITIALIZATION ---
+    // Accordion Logic
+    document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const item = header.parentElement;
+            item.classList.toggle('open');
+            const content = item.querySelector('.accordion-content');
+            content.style.maxHeight = item.classList.contains('open') ? content.scrollHeight + "px" : null;
+        });
+    });
+
+    // EVENT LISTENERS
     enterBtn.addEventListener('click', handleAccess);
     [usernameInput, passwordInput, repeatPasswordInput, inviteCodeInput].forEach(input => input.addEventListener('keypress', (e) => e.key === 'Enter' && handleAccess()));
     showRegisterLink.addEventListener('click', (e) => { e.preventDefault(); setAccessMode('register'); });
     showLoginLink.addEventListener('click', (e) => { e.preventDefault(); setAccessMode('login'); });
     navLinks.forEach(link => link.addEventListener('click', handleNavigation));
     chatForm.addEventListener('submit', sendMessage);
-    channelList.addEventListener('click', switchChannel);
+    channels.addEventListener('click', switchChannel);
+    channelToggleBtn.addEventListener('click', () => channelListPanel.classList.toggle('open'));
     messageInput.addEventListener('input', () => {
         if (!socket || !user) return;
         socket.emit('user typing', { channel: currentChannel });
