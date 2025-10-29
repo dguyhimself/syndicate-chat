@@ -65,7 +65,10 @@
         .login-box input:focus { border-color: var(--accent-color); box-shadow: 0 0 10px var(--glow-color); outline: none; }
         #enterSyndicateBtn { width: 100%; padding: 18px; background-color: var(--accent-color); border: none; color: var(--background-color); font-family: var(--font-family-display); font-size: 1.8rem; letter-spacing: 2px; cursor: pointer; transition: all var(--transition-speed) ease; border-radius: 4px; }
         #enterSyndicateBtn:hover { box-shadow: 0 0 25px var(--glow-color); background-color: #fff; transform: translateY(-3px); letter-spacing: 3px; }
-        #login-error { color: var(--danger-color); margin-top: 15px; display: none; font-size: 0.9rem; }
+        #login-error { color: var(--danger-color); margin-top: 15px; display: none; font-size: 0.9rem; min-height: 1.2rem; }
+        .login-toggle { margin-top: 25px; }
+        .login-toggle a { color: var(--text-muted-color); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-speed); }
+        .login-toggle a:hover { color: var(--accent-color); }
 
         /* --- Sidebar --- */
         #sidebar {
@@ -229,11 +232,15 @@
 <div id="antechamber">
     <div class="login-box">
         <h1>[ S ]</h1>
-        <p>Community Protocol Access</p>
+        <p id="login-prompt">Community Protocol Access</p>
         <input type="text" id="usernameInput" placeholder="ENTER YOUR ALIAS" autocomplete="off">
         <input type="password" id="inviteCode" placeholder="ENTER INVITATION CODE">
         <button id="enterSyndicateBtn">INITIALIZE</button>
-        <div id="login-error">Invalid Credentials. Access Denied.</div>
+        <div id="login-error"></div>
+        <div class="login-toggle">
+            <a href="#" id="showRegisterLink">New Operative?</a>
+            <a href="#" id="showLoginLink" style="display: none;">Existing Member Login</a>
+        </div>
     </div>
 </div>
 
@@ -492,9 +499,10 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // --- STATE & MOCK DATA (FOR LOGIN ONLY) ---
+    // --- STATE & DATA ---
     let user = { alias: 'ALIAS', rank: 'soldier' };
     const validUsers = { 'Architect': { rank: 'architect' }, 'Nyx': { rank: 'enforcer' }, 'Cypher': { rank: 'enforcer' }, 'Viper': { rank: 'sentinel' }, 'Glitch': { rank: 'signal-corps' }, 'Pixel': { rank: 'artificer' }, 'ZeroCool': { rank: 'scribe' }, 'Ghost0x': { rank: 'soldier' }, 'Raptor': { rank: 'soldier' } };
+    let accessMode = 'login'; // Can be 'login' or 'register'
     
     // --- DOM ELEMENTS ---
     const antechamber = document.getElementById('antechamber');
@@ -504,6 +512,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const usernameDisplay = document.getElementById('usernameDisplay');
     const rankDisplay = document.getElementById('rankDisplay');
     const loginError = document.getElementById('login-error');
+    const loginPrompt = document.getElementById('login-prompt');
+    const showRegisterLink = document.getElementById('showRegisterLink');
+    const showLoginLink = document.getElementById('showLoginLink');
     const navLinks = document.querySelectorAll('.nav-link');
     const views = document.querySelectorAll('.view');
     const powForm = document.getElementById('pow-form');
@@ -520,24 +531,80 @@ document.addEventListener('DOMContentLoaded', () => {
     const typingIndicator = document.getElementById('typing-indicator');
     let currentChannel = 'general';
     let typingTimeout;
-
-    let socket; // Will be initialized on login
+    let socket;
 
     // --- FUNCTIONS ---
+
+    const setAccessMode = (mode) => {
+        accessMode = mode;
+        loginError.textContent = '';
+        if (mode === 'register') {
+            loginPrompt.textContent = 'Register New Operative';
+            usernameInput.placeholder = 'CHOOSE YOUR ALIAS';
+            enterBtn.textContent = 'REGISTER';
+            showRegisterLink.style.display = 'none';
+            showLoginLink.style.display = 'inline';
+        } else { // login
+            loginPrompt.textContent = 'Community Protocol Access';
+            usernameInput.placeholder = 'ENTER YOUR ALIAS';
+            enterBtn.textContent = 'INITIALIZE';
+            showRegisterLink.style.display = 'inline';
+            showLoginLink.style.display = 'none';
+        }
+    };
+
+    const showError = (message) => {
+        loginError.textContent = message;
+        loginError.style.display = 'block';
+    };
+
+    const proceedToHub = () => {
+        usernameDisplay.textContent = user.alias;
+        rankDisplay.innerHTML = `<span class="rank ${user.rank.replace(' ', '-')}">${user.rank.toUpperCase()}</span>`;
+        antechamber.style.opacity = '0';
+        setTimeout(() => { antechamber.style.display = 'none'; }, 500);
+        initializeChat();
+    };
+
+    const handleAccess = () => {
+        const username = usernameInput.value.trim();
+        const inviteCode = inviteCodeInput.value.trim();
+        
+        if (inviteCode !== '123') {
+            showError('Invalid Invitation Code.');
+            return;
+        }
+
+        if (username === '') {
+            showError('Alias cannot be empty.');
+            return;
+        }
+
+        if (accessMode === 'login') {
+            if (validUsers[username]) {
+                user = { alias: username, rank: validUsers[username].rank };
+                proceedToHub();
+            } else {
+                showError('Unknown Alias. Register as a New Operative.');
+            }
+        } else { // register mode
+            if (validUsers[username]) {
+                showError('Alias is already in use.');
+            } else {
+                user = { alias: username, rank: 'soldier' }; // New users are always Soldiers
+                proceedToHub();
+            }
+        }
+    };
+
     const initializeChat = () => {
         socket = io();
-
-        // Tell the server we've joined
         socket.emit('user joined', user);
 
-        // Listen for incoming messages
         socket.on('chat message', (msg) => {
-            if (msg.channel === currentChannel) {
-                appendMessage(msg);
-            }
+            if (msg.channel === currentChannel) appendMessage(msg);
         });
 
-        // Listen for the full channel history after switching channels
         socket.on('channel history', (data) => {
             if (data.channel === currentChannel) {
                 chatMessages.innerHTML = '';
@@ -545,7 +612,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Listen for typing broadcasts
         socket.on('typing broadcast', (typingUsers) => {
             const usersTypingInChannel = Object.values(typingUsers).filter(u => u.channel === currentChannel && u.username !== user.alias);
             if (usersTypingInChannel.length === 0) {
@@ -558,32 +624,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const handleLogin = () => {
-        const username = usernameInput.value.trim();
-        const inviteCode = inviteCodeInput.value.trim();
-        // The invite code is hardcoded here for this example.
-        if (username !== '' && inviteCode === '123' && validUsers[username]) {
-            user = { alias: username, rank: validUsers[username].rank };
-            usernameDisplay.textContent = user.alias;
-            rankDisplay.innerHTML = `<span class="rank ${user.rank.toLowerCase().replace(' ','-')}">${user.rank}</span>`;
-            antechamber.style.opacity = '0';
-            setTimeout(() => { antechamber.style.display = 'none'; }, 500);
-            
-            // Initialize the real-time chat connection
-            initializeChat();
-        } else {
-            loginError.style.display = 'block';
-            setTimeout(() => { loginError.style.display = 'none'; }, 3000);
-        }
-    };
-
     const handleNavigation = (e) => {
         const targetView = e.currentTarget.getAttribute('data-view');
         navLinks.forEach(nav => nav.classList.remove('active'));
         e.currentTarget.classList.add('active');
         views.forEach(view => {
             view.classList.remove('active');
-            if (view.id === targetView) { view.classList.add('active'); }
+            if (view.id === targetView) view.classList.add('active');
         });
     };
 
@@ -620,27 +667,20 @@ document.addEventListener('DOMContentLoaded', () => {
             rank: user.rank,
             content: content,
             channel: currentChannel,
-            // timestamp will be added by the server
         };
 
-        // Append message locally for instant feedback
         const localTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         appendMessage({ ...message, timestamp: localTimestamp });
-
-        // Send message to the server
         socket.emit('chat message', message);
 
-        // Stop typing broadcast
         clearTimeout(typingTimeout);
         socket.emit('user stopped typing');
-
         messageInput.value = '';
     };
 
     const switchChannel = (e) => {
         if (e.target.tagName !== 'LI' || !socket) return;
         
-        // Stop typing in old channel
         clearTimeout(typingTimeout);
         socket.emit('user stopped typing');
 
@@ -650,15 +690,17 @@ document.addEventListener('DOMContentLoaded', () => {
         currentChannelName.textContent = `#${currentChannel}`;
         messageInput.placeholder = `Transmit in #${currentChannel}...`;
         
-        // Clear current messages and request history for the new channel
         chatMessages.innerHTML = '';
         typingIndicator.innerHTML = '';
         socket.emit('switch channel', currentChannel);
     };
 
-    // --- EVENT LISTENERS & INITIALIZATIONS ---
-    enterBtn.addEventListener('click', handleLogin);
-    [usernameInput, inviteCodeInput].forEach(input => input.addEventListener('keypress', (e) => e.key === 'Enter' && handleLogin()));
+    // --- EVENT LISTENERS ---
+    enterBtn.addEventListener('click', handleAccess);
+    [usernameInput, inviteCodeInput].forEach(input => input.addEventListener('keypress', (e) => e.key === 'Enter' && handleAccess()));
+    
+    showRegisterLink.addEventListener('click', (e) => { e.preventDefault(); setAccessMode('register'); });
+    showLoginLink.addEventListener('click', (e) => { e.preventDefault(); setAccessMode('login'); });
     
     navLinks.forEach(link => link.addEventListener('click', handleNavigation));
     document.querySelectorAll('.accordion-header').forEach(header => header.addEventListener('click', handleAccordion));
@@ -668,18 +710,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     messageInput.addEventListener('input', () => {
         if (!socket) return;
-        // Let others know we are typing
         socket.emit('user typing', { channel: currentChannel });
-        // Set a timeout to consider "stopped typing"
         clearTimeout(typingTimeout);
         typingTimeout = setTimeout(() => {
             socket.emit('user stopped typing');
-        }, 2000); // 2 seconds of inactivity
+        }, 2000);
     });
 
     powForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        // This remains a client-side simulation as requested
         const submitBtn = e.target.querySelector('.btn-submit');
         submitBtn.textContent = 'SUBMITTING...';
         powSubmissionStatus.style.display = 'block';
