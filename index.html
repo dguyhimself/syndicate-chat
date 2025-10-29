@@ -47,6 +47,7 @@
             z-index: -1;
         }
 
+        /* --- Login Overlay --- */
         #antechamber { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 15, 20, 0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(10px); transition: opacity 0.5s ease, visibility 0.5s; }
         .login-box { background: rgba(13, 17, 23, 0.6); border: 1px solid var(--border-color); padding: 40px; text-align: center; width: 450px; max-width: 90vw; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); backdrop-filter: blur(15px); border-radius: var(--border-radius); animation: fadeIn 1s ease; }
         .login-box h1 { font-family: var(--font-family-display); color: var(--accent-color); font-size: 5rem; margin-bottom: 0px; letter-spacing: 5px; line-height: 1; text-shadow: 0 0 20px var(--glow-color); }
@@ -61,6 +62,7 @@
         .login-toggle a { color: var(--text-muted-color); text-decoration: none; font-size: 0.9rem; transition: color var(--transition-speed); }
         .login-toggle a:hover { color: var(--accent-color); }
 
+        /* --- Sidebar (Desktop) --- */
         #sidebar { width: 70px; background-color: var(--primary-color); border-right: 1px solid var(--border-color); padding: 20px 0; height: 100vh; display: flex; flex-direction: column; align-items: center; transition: width var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(15px); z-index: 10; overflow-x: hidden; }
         #sidebar:hover { width: 240px; }
         #sidebar .logo { font-family: var(--font-family-display); font-size: 3rem; color: var(--accent-color); margin-bottom: 40px; cursor: default; filter: drop-shadow(0 0 10px var(--glow-color)); }
@@ -80,12 +82,14 @@
         #status { font-size: 0.8rem; color: var(--accent-color); }
         #status::before { content: "●"; margin-right: 6px; }
         .rank.architect { background-color: var(--accent-color); color: var(--background-color); border-color: var(--accent-color); }
-        .rank.enforcer { background-color: transparent; color: var(--danger-color); border-color: var(--danger-color); }
-        .rank.artificer, .rank.scribe { background-color: transparent; color: #6F86FF; border-color: #6F86FF; }
-        .rank.signal-corps { background-color: transparent; color: #FFB86C; border-color: #FFB86C; }
-        .rank.sentinel { background-color: transparent; color: #A4B2FF; border-color: #A4B2FF; }
-        .rank.soldier { background-color: transparent; color: var(--text-muted-color); border-color: var(--text-muted-color); }
-        
+        .rank.enforcer, .rank.artificer, .rank.scribe, .rank.signal-corps, .rank.sentinel, .rank.soldier { background-color: transparent; }
+        .rank.enforcer { color: var(--danger-color); border-color: var(--danger-color); }
+        .rank.artificer, .rank.scribe { color: #6F86FF; border-color: #6F86FF; }
+        .rank.signal-corps { color: #FFB86C; border-color: #FFB86C; }
+        .rank.sentinel { color: #A4B2FF; border-color: #A4B2FF; }
+        .rank.soldier { color: var(--text-muted-color); border-color: var(--text-muted-color); }
+        .mobile-only { display: none !important; }
+
         #main-content { flex: 1; padding: 40px; height: 100vh; overflow-y: auto; position: relative; }
         .view { display: none; animation: fadeIn 0.5s ease; }
         .view.active { display: block; }
@@ -101,26 +105,25 @@
         
         /* --- ARMOURY UPGRADE --- */
         .armoury-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .armoury-item { border-radius: var(--border-radius); overflow: hidden; transition: all var(--transition-speed) ease; background: var(--primary-color); }
+        .armoury-item { border-radius: var(--border-radius); overflow: hidden; transition: all var(--transition-speed) ease; background: transparent; padding: 0; }
         .armoury-item:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 10px var(--glow-color); }
+        .armoury-item .img-container { overflow: hidden; }
         .armoury-item img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; filter: saturate(0.2) brightness(0.7); transition: all var(--transition-speed) ease; }
         .armoury-item:hover img { filter: saturate(1) brightness(1); transform: scale(1.05); }
         .asset-info { padding: 20px; }
-        .asset-info h4 { font-size: 1.2rem; margin-bottom: 8px; }
+        .asset-info h4 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text-color); }
         .asset-info p { font-size: 0.9rem; color: var(--text-muted-color); }
         .asset-download-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 15px; background-color: var(--secondary-color); text-align: center; color: var(--accent-color); text-decoration: none; font-weight: bold; letter-spacing: 1px; transition: all var(--transition-speed) ease; border-top: 1px solid var(--border-color); }
         .asset-download-btn:hover { background-color: var(--accent-color); color: var(--background-color); }
-        .asset-download-btn svg { width: 18px; height: 18px; }
-
+        
         /* --- PROVING GROUND UPGRADE --- */
-        .proving-ground-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
-        .submission-card { grid-column: span 12; }
-        .submission-feed { grid-column: span 12; }
-        @media (min-width: 992px) { .submission-card { grid-column: span 5; } .submission-feed { grid-column: span 7; } }
-        .form-group label { text-align: left; }
-        .submission-feed .card-header { border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px;}
+        #proving-ground .form-group label { display: block; text-align: left; margin-bottom: 10px; font-size: 1.1rem; color: var(--text-muted-color); text-transform: uppercase; letter-spacing: 1px; }
+        #proving-ground .form-group input, #proving-ground .form-group textarea { width: 100%; background-color: var(--background-color); border: 1px solid var(--border-color); color: var(--text-color); padding: 15px; font-family: var(--font-family-mono); font-size: 1rem; border-radius: 4px; transition: all var(--transition-speed) ease; }
+        #proving-ground .form-group textarea { resize: vertical; min-height: 120px; }
+        #proving-ground .form-group input:focus, #proving-ground .form-group textarea:focus { border-color: var(--accent-color); box-shadow: 0 0 10px var(--glow-color); outline: none; }
+        .btn-submit { width: 100%; padding: 18px; background-color: var(--accent-color); border: none; color: var(--background-color); font-family: var(--font-family-display); font-size: 1.8rem; letter-spacing: 2px; cursor: pointer; transition: all var(--transition-speed) ease; border-radius: 4px; margin-top: 20px; }
+        .btn-submit:hover { box-shadow: 0 0 25px var(--glow-color); background-color: #fff; transform: translateY(-3px); }
         .submission-item { background: rgba(0,0,0,0.2); padding: 20px; border-radius: var(--border-radius); border: 1px solid var(--border-color); margin-bottom: 20px; }
-        .submission-item:last-child { margin-bottom: 0; }
         
         /* --- PROTOCOL UPGRADE --- */
         .accordion-item { background: transparent; border: 1px solid var(--border-color); margin-bottom: 15px; border-radius: var(--border-radius); overflow: hidden; transition: background-color var(--transition-speed) ease; }
@@ -129,36 +132,19 @@
         .accordion-header .icon { transition: transform var(--transition-speed) ease; font-size: 1.5rem; color: var(--accent-color); }
         .accordion-item.open .accordion-header { color: var(--accent-color); }
         .accordion-item.open .accordion-header .icon { transform: rotate(45deg); }
-        .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.4s ease-out; }
+        .accordion-content { padding: 0 20px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; }
         .accordion-content p { line-height: 1.7; color: var(--text-muted-color); padding-bottom: 20px; }
 
         /* --- THE LOUNGE & CHAT --- */
         .lounge-container { display: flex; height: calc(100vh - 180px); background: var(--primary-color); border-radius: var(--border-radius); border: 1px solid var(--border-color); overflow: hidden; position: relative;}
         .channel-list { width: 250px; border-right: 1px solid var(--border-color); padding: 15px; background-color: rgba(0,0,0,0.1); display: flex; flex-direction: column; }
-        .channel-list h3 { font-family: var(--font-family-display); font-size: 1.8rem; margin-bottom: 15px; padding: 10px; }
-        .channel-list ul { list-style: none; }
-        .channel-list li { display: flex; align-items: center; padding: 12px 15px; border-radius: 5px; margin-bottom: 5px; cursor: pointer; transition: background-color var(--transition-speed); }
-        .channel-list li::before { content: '#'; margin-right: 10px; color: var(--text-muted-color); }
-        .channel-list li.active, .channel-list li:hover { background-color: var(--secondary-color); color: var(--accent-color); }
-        .channel-list li.active::before, .channel-list li:hover::before { color: var(--accent-color); }
         .chat-area { flex: 1; display: flex; flex-direction: column; }
         .chat-header { padding: 15px 20px; border-bottom: 1px solid var(--border-color); font-weight: bold; background-color: rgba(0,0,0,0.1); display: flex; align-items: center; gap: 10px; }
         #channel-toggle-btn { display: none; background: var(--secondary-color); border: 1px solid var(--border-color); color: var(--accent-color); font-size: 1.5rem; width: 40px; height: 40px; border-radius: 5px; cursor: pointer; }
         #current-channel-name { color: var(--accent-color); font-family: var(--font-family-mono); }
         .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; }
-        #typing-indicator { height: 25px; padding: 0 20px; color: var(--text-muted-color); font-style: italic; transition: opacity 0.3s ease; }
-        .message { margin-bottom: 20px; display: flex; animation: fadeInMessage 0.3s ease; }
-        @keyframes fadeInMessage { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         .message .avatar { width: 40px; height: 40px; background: var(--secondary-color); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; margin-right: 15px; flex-shrink: 0; border: 2px solid var(--border-color); }
-        .message .author { font-weight: bold; margin-right: 10px; }
-        .message .timestamp { font-size: 0.8em; color: var(--text-muted-color); }
-        .message .content { margin-top: 5px; line-height: 1.5; }
-        .chat-input { display: flex; border-top: 1px solid var(--border-color); background-color: var(--background-color); }
-        .chat-input input { flex-grow: 1; background: transparent; border: none; padding: 20px; color: var(--text-color); font-family: var(--font-family-mono); font-size: 1rem; }
-        .chat-input input:focus { outline: none; }
-        .chat-input button { background: var(--accent-color); border: none; color: var(--background-color); padding: 0 30px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: all var(--transition-speed) ease; }
-        .chat-input button:hover { background-color: #fff; letter-spacing: 1px; }
-
+        
         /* --- MEMBER ROSTER & STATUS --- */
         .members-table table { width: 100%; border-collapse: collapse; }
         .members-table th, .members-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
@@ -170,6 +156,9 @@
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 800px) {
             body { flex-direction: column; overflow: auto; }
+            .desktop-only { display: none !important; }
+            .mobile-only { display: flex !important; }
+
             #sidebar { width: 100%; height: 70px; position: fixed; bottom: 0; left: 0; z-index: 100; flex-direction: row; align-items: center; padding: 0; border-right: none; border-top: 1px solid var(--border-color); }
             #sidebar .logo, #sidebar .user-profile { display: none; }
             #sidebar nav, #sidebar nav ul { display: flex; flex-direction: row; justify-content: space-around; align-items: center; width: 100%; height: 100%; }
@@ -182,9 +171,17 @@
             h2 { font-size: 2.5rem; }
 
             .lounge-container { height: calc(100vh - 150px); }
-            .channel-list { position: absolute; left: 0; top: 0; width: 80%; max-width: 300px; height: 100%; z-index: 200; transform: translateX(-100%); transition: transform 0.3s ease; background: var(--background-color); }
-            .channel-list.open { transform: translateX(0); }
-            #channel-toggle-btn { display: block; }
+            .channel-list { position: absolute; left: 0; top: 0; width: 80%; max-width: 300px; height: 100%; z-index: 200; transform: translateX(-100%); transition: transform 0.3s ease; background-color: var(--background-color); }
+            .channel-list.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
+            #channel-toggle-btn { display: flex; align-items: center; justify-content: center; }
+            .chat-header #current-channel-name::before { content: '#'; }
+
+            .members-table table, .members-table thead, .members-table tbody, .members-table th, .members-table td, .members-table tr { display: block; }
+            .members-table thead tr { position: absolute; top: -9999px; left: -9999px; }
+            .members-table tr { border: 1px solid var(--border-color); border-radius: var(--border-radius); margin-bottom: 15px; }
+            .members-table td { border: none; border-bottom: 1px solid var(--border-color); position: relative; padding-left: 50%; text-align: right; }
+            .members-table td:last-child { border-bottom: 0; }
+            .members-table td::before { content: attr(data-label); position: absolute; left: 15px; width: 45%; padding-right: 10px; white-space: nowrap; text-align: left; font-weight: bold; color: var(--text-color); }
         }
     </style>
 </head>
@@ -211,13 +208,12 @@
     <div class="logo">S</div>
     <nav>
         <ul>
-            <li class="nav-link active" data-view="mission-control"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8a6 6 0 0 0-8.4-8.4"/><path d="M13 10.7a6 6 0 0 0-8.4 8.4"/></svg></span><span class="nav-text">Mission Control</span></li>
+            <li class="nav-link active mobile-only" data-view="mission-control"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8a6 6 0 0 0-8.4-8.4"/><path d="M13 10.7a6 6 0 0 0-8.4 8.4"/></svg></span><span class="nav-text">Mission Control</span></li>
+            <li class="nav-link active desktop-only" data-view="mission-control"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8a6 6 0 0 0-8.4-8.4"/><path d="M13 10.7a6 6 0 0 0-8.4 8.4"/></svg></span><span class="nav-text">Mission Control</span></li>
             <li class="nav-link" data-view="lounge"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span class="nav-text">The Lounge</span></li>
             <li class="nav-link" data-view="armoury"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c-1.2 0-2.4.6-3 1.7A3.5 3.5 0 0 0 5 6.8V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6.8a3.5 3.5 0 0 0-4-5.1A3.5 3.5 0 0 0 12 3z"/><path d="M12 13v8"/><path d="M6 13v-1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg></span><span class="nav-text">The Armoury</span></li>
-            <li class="nav-link" data-view="proving-ground"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></span><span class="nav-text">Proving Ground</span></li>
-            <li class="nav-link" data-view="protocol"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span><span class="nav-text">The Protocol</span></li>
+            <li class="nav-link desktop-only" data-view="proving-ground"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></span><span class="nav-text">Proving Ground</span></li>
             <li class="nav-link" data-view="members"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="nav-text">Member Roster</span></li>
-            <li class="nav-link" data-view="about"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span><span class="nav-text">About</span></li>
         </ul>
     </nav>
     <div class="user-profile"><div class="user-details"><div id="usernameDisplay">ALIAS</div><div id="rankDisplay"><span class="rank soldier">SOLDIER</span></div><div id="status">ONLINE</div></div></div>
@@ -238,7 +234,7 @@
         <div class="lounge-container">
             <div class="channel-list" id="channel-list-panel"><h3>Channels</h3><ul id="channels"><li class="active" data-channel="general">general</li><li data-channel="operations">operations</li><li data-channel="intel-drops">intel-drops</li><li data-channel="proof-of-work">proof-of-work</li></ul></div>
             <div class="chat-area">
-                <div class="chat-header"><button id="channel-toggle-btn">#</button><span id="current-channel-name">general</span></div>
+                <div class="chat-header"><button id="channel-toggle-btn">#</button><span id="current-channel-name">#general</span></div>
                 <div class="chat-messages"></div>
                 <div id="typing-indicator"></div>
                 <form class="chat-input" id="chat-form"><input type="text" id="chatMessageInput" placeholder="Transmit in #general..." autocomplete="off"><button id="sendMessageBtn">SEND</button></form>
@@ -250,19 +246,16 @@
         <h2>The <span class="highlight">Armoury</span></h2>
         <div class="card" style="margin-bottom: 30px;"><div class="card-header">Mission Directives</div><div class="card-content">This is the arsenal for the Social Storm. When an operation is active, this section will be stocked with propaganda assets. Your duty is to acquire these assets and deploy them across all social media platforms on signal, overwhelming the target with our collective narrative.</div></div>
         <div class="armoury-grid">
-            <div class="armoury-item"><img src="https://i.imgur.com/8Q1mH5b.png" alt="Meme 1"><div class="asset-info"><h4>WOLF_MEME_01.PNG</h4><p>Type: Static Meme</p></div><a href="https://i.imgur.com/8Q1mH5b.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
-            <div class="armoury-item"><img src="https://i.imgur.com/Y3g0g9J.png" alt="Meme 2"><div class="asset-info"><h4>WOLF_STRIKE.PNG</h4><p>Type: Static Meme</p></div><a href="https://i.imgur.com/Y3g0g9J.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
-            <div class="armoury-item"><img src="https://i.imgur.com/k2gY1zR.png" alt="Meme 3"><div class="asset-info"><h4>LONE_WOLF.PNG</h4><p>Type: Quote Graphic</p></div><a href="https://i.imgur.com/k2gY1zR.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
-            <div class="armoury-item"><img src="https://i.imgur.com/wV2V4gN.png" alt="Meme 4"><div class="asset-info"><h4>WOLF_PACK.GIF</h4><p>Type: Animated GIF</p></div><a href="https://i.imgur.com/wV2V4gN.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
+            <div class="armoury-item card"><div class="img-container"><img src="https://i.imgur.com/8Q1mH5b.png" alt="Meme 1"></div><div class="asset-info"><h4>WOLF_MEME_01.PNG</h4><p>Type: Static Meme</p></div><a href="https://i.imgur.com/8Q1mH5b.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
+            <div class="armoury-item card"><div class="img-container"><img src="https://i.imgur.com/Y3g0g9J.png" alt="Meme 2"></div><div class="asset-info"><h4>WOLF_STRIKE.PNG</h4><p>Type: Static Meme</p></div><a href="https://i.imgur.com/Y3g0g9J.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
+            <div class="armoury-item card"><div class="img-container"><img src="https://i.imgur.com/k2gY1zR.png" alt="Meme 3"></div><div class="asset-info"><h4>LONE_WOLF.PNG</h4><p>Type: Quote Graphic</p></div><a href="https://i.imgur.com/k2gY1zR.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
+            <div class="armoury-item card"><div class="img-container"><img src="https://i.imgur.com/wV2V4gN.png" alt="Meme 4"></div><div class="asset-info"><h4>WOLF_PACK.GIF</h4><p>Type: Animated GIF</p></div><a href="https://i.imgur.com/wV2V4gN.png" download class="asset-download-btn"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>ACQUIRE ASSET</a></div>
         </div>
     </section>
     
     <section id="proving-ground" class="view">
         <h2>The <span class="highlight">Proving Ground</span></h2>
-        <div class="proving-ground-grid">
-            <div class="submission-card card"><div class="card-header">Submit Proof-of-Work</div><p style="color: var(--text-muted-color); margin-bottom: 25px;">Distinguish yourself. Submit contributions to be reviewed by the Council for promotion. Post your work in the #proof-of-work channel first.</p><form id="pow-form"><div class="form-group"><label for="contribution-link">Link to Contribution</label><input type="text" id="contribution-link" placeholder="e.g., imgur.com/gallery/..." required></div><div class="form-group"><label for="contribution-desc">Brief Description</label><textarea id="contribution-desc" placeholder="Explain your work and which Division you are aiming for." required></textarea></div><button type="submit" class="btn-submit">SUBMIT FOR REVIEW</button><div id="pow-submission-status"></div></form></div>
-            <div class="submission-feed card"><div class="card-header">Recent Submissions</div><div id="submission-feed-list"><div class="submission-item"><p class="submission-meta">Submitted by <strong>Ghost0x</strong> for <strong>Propaganda Bureau (Artificer)</strong></p><p class="submission-content">"Created a new series of high-impact GIFs for the $WOLF social storm."</p></div><div class="submission-item"><p class="submission-meta">Submitted by <strong>Raptor</strong> for <strong>Sentinel Division</strong></p><p class="submission-content">"Analyzed the top 10 wallets of the last operation; identified 3 potential swing traders to watch."</p></div></div></div>
-        </div>
+        <div class="card"><div class="card-header">Submit Proof-of-Work</div><p style="color: var(--text-muted-color); margin-bottom: 25px;">Distinguish yourself. Submit contributions to be reviewed by the Council for promotion. Post your work in the #proof-of-work channel first.</p><form id="pow-form"><div class="form-group"><label for="contribution-link">Link to Contribution</label><input type="text" id="contribution-link" placeholder="e.g., imgur.com/gallery/..." required></div><div class="form-group"><label for="contribution-desc">Brief Description</label><textarea id="contribution-desc" placeholder="Explain your work and which Division you are aiming for." required></textarea></div><button type="submit" class="btn-submit">SUBMIT FOR REVIEW</button><div id="pow-submission-status"></div></form></div>
     </section>
     
     <section id="protocol" class="view">
@@ -271,14 +264,14 @@
             <div class="accordion-item"><div class="accordion-header">Rule I: The Duty of Secrecy <span class="icon">+</span></div><div class="accordion-content"><p>What is discussed here, stays here. Any leak of operational details, member identities, or internal strategies will result in immediate and permanent expulsion.</p></div></div>
             <div class="accordion-item"><div class="accordion-header">Rule II: The Duty of Participation <span class="icon">+</span></div><div class="accordion-content"><p>This is not a spectator sport. Every member is required to participate in Social Storms. Participation is monitored.</p></div></div>
             <div class="accordion-item"><div class="accordion-header">Rule III: The Duty of Discipline <span class="icon">+</span></div><div class="accordion-content"><p>Follow the command structure. Exit signals are not suggestions; they are orders. Acting on individual greed jeopardizes the entire operation.</p></div></div>
-            <div class="accordion-item"><div class="accordion-header">Rule IV: The Creator's Vow <span class="icon">+</span></div><div class="accordion-content"><p>Any asset launched from this platform is bound by The Creator's Vow: a mandatory, publicly verifiable burn of all Liquidity Pool (LP) tokens. This is a non-negotiable vow of trust.</p></div></div>
+            <div class="accordion-item"><div class="accordion-header">Rule IV: The Creator's Vow <span class="icon">+</span></div><div class="accordion-content"><p>Any asset launched from this platform is bound by The Creator's Vow: a mandatory, publicly verifiable burn of all Liquidity Pool (LP) tokens.</p></div></div>
         </div>
         <div class="final-warning" style="margin-top: 20px; padding: 20px; border: 1px solid var(--danger-color); color: var(--danger-color); text-align: center; border-radius: var(--border-radius); background-color: rgba(248, 81, 73, 0.1);">Compliance is not optional.</div>
     </section>
 
     <section id="members" class="view">
         <h2>Member <span class="highlight">Roster</span></h2>
-        <div class="card members-table"><table width="100%"><thead><tr><th>Alias</th><th>Rank</th><th>Status</th></tr></thead><tbody id="member-roster-body"></tbody></table></div>
+        <div class="card members-table"><table><thead><tr><th>Alias</th><th>Rank</th><th>Status</th></tr></thead><tbody id="member-roster-body"></tbody></table></div>
     </section>
 
     <section id="about" class="view">
@@ -394,7 +387,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const statusText = isOnline ? 'Online' : 'Offline';
                 const rankClass = member.rank.replace(' ', '-');
                 const row = document.createElement('tr');
-                row.innerHTML = `<td>${member.alias}</td><td><span class="rank ${rankClass}">${member.rank.toUpperCase()}</span></td><td><span class="status-dot ${statusClass}"></span>${statusText}</td>`;
+                row.innerHTML = `
+                    <td data-label="Alias">${member.alias}</td>
+                    <td data-label="Rank"><span class="rank ${rankClass}">${member.rank.toUpperCase()}</span></td>
+                    <td data-label="Status"><span class="status-dot ${statusClass}"></span>${statusText}</td>
+                `;
                 memberRosterBody.appendChild(row);
             });
         }
@@ -423,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const appendMessage = (msg) => {
-        const isScrolledToBottom = chatMessages.scrollHeight - chatMessages.clientHeight <= chatMessages.scrollTop + 1;
+        const isScrolledToBottom = chatMessages.scrollHeight - chatMessages.clientHeight <= chatMessages.scrollTop + 5;
         const messageHTML = `<div class="message"><div class="avatar">${msg.author.substring(0, 2).toUpperCase()}</div><div class="message-body"><div><span class="author rank-${msg.rank}">${msg.author}</span><span class="timestamp">${msg.timestamp}</span></div><div class="content">${msg.content}</div></div></div>`;
         chatMessages.insertAdjacentHTML('beforeend', messageHTML);
         if (isScrolledToBottom) chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -465,17 +462,24 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(targetView).classList.add('active');
     };
     
-    // Accordion Logic
     document.querySelectorAll('.accordion-header').forEach(header => {
         header.addEventListener('click', () => {
             const item = header.parentElement;
-            item.classList.toggle('open');
             const content = item.querySelector('.accordion-content');
-            content.style.maxHeight = item.classList.contains('open') ? content.scrollHeight + "px" : null;
+            if (item.classList.contains('open')) {
+                item.classList.remove('open');
+                content.style.maxHeight = null;
+            } else {
+                document.querySelectorAll('.accordion-item.open').forEach(openItem => {
+                    openItem.classList.remove('open');
+                    openItem.querySelector('.accordion-content').style.maxHeight = null;
+                });
+                item.classList.add('open');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
         });
     });
 
-    // EVENT LISTENERS
     enterBtn.addEventListener('click', handleAccess);
     [usernameInput, passwordInput, repeatPasswordInput, inviteCodeInput].forEach(input => input.addEventListener('keypress', (e) => e.key === 'Enter' && handleAccess()));
     showRegisterLink.addEventListener('click', (e) => { e.preventDefault(); setAccessMode('register'); });
